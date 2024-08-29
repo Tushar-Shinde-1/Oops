@@ -1,0 +1,153 @@
+// title: a book shop maintaines the inventory of books that are being sold at the shop. the list includes details such as author,title,price,publisher and stock position .whenever a customer wants a book the sells person inputs the title and author and the system searches the list and displays whether it is avilable or not. if it is not an appropriate msg is displayed .if it is then the system displays the book details and request for number of copies required if the requested copies are avilaable the total cost of the requested copies is displayed. otherwise the msg "reqired copies not in stack" is displayed. design asystem using a class callled as books with sutiable member function and constructor . use new operator in constructor to allocate memory space required impliment c++ program for the system
+
+#include <iostream>
+using namespace std;
+
+class books
+{
+public:
+    string author;
+    string title;
+    float price;
+    string publisher;
+    int stockposition;
+    // int contity;
+
+    bool insertbooks( int n,books b[])
+    {
+        int test = 0;
+        cout << "\nadd the details of books :" << n + 1 << endl;
+        cout << "\nenter the name of book  :";
+        cin.ignore();
+        getline(cin, title);
+        cout << "enter the autor of book :";
+        getline(cin, author);
+        for (int j = 0; j < n; j++)
+        {
+            if (title == b[j].title && author == b[j].author)
+            {
+                
+
+                cout << "\nBook already present in the library" << endl;
+                return true;
+            }
+        }
+
+        cout << "enter the price of book :";
+        cin >> price;
+        cout << "enter publisher of book :";
+        cin.ignore();
+        getline(cin, publisher);
+        cout << "enter the stock position:";
+        cin >> stockposition;
+        return false;
+    }
+
+    void display(int j)
+    {
+        cout << "\t\t" << title << "\t\t" << author << "\t\t" << price << "\t\t" << publisher << "\t\t\t" << stockposition << endl;
+    }
+};
+
+int main()
+{
+    string selltitle, sellauthor;
+    books b[100];
+    int n = 0, flag = 0, ch = 0, ch1 = 1, j, temp = 0;
+    int contity, replace;
+
+    do
+    {
+        cout << "\nselect the service ";
+        cout << "\n1.insert books\n2.purchase book \n3.display\n4.exit \n";
+        cin >> ch;
+
+        switch (ch)
+        {
+        case 1:
+            cout << "how many books you want to insert :";
+            cin >> temp;
+
+            for (int i = 0; i < temp; i++)
+            {
+              if(  b[n].insertbooks( n,b))
+               {
+                   i--;
+                   cout<<"do you want to replace the book(1/0)?";
+                   cin>>replace;
+                   if(replace==1)
+                   {
+                    continue;
+                   }
+                   else{
+                   break;
+                   }
+               }
+               else{
+
+                n++;
+               }
+            }
+           
+            break;
+        case 2:
+            cin.ignore();
+            cout << "Which book do you want to purchase? \nEnter the name  : ";
+            getline(cin, selltitle);
+            cout << "Enter the author: ";
+            getline(cin, sellauthor);
+
+            for (j = 0; j < n; j++)
+            {
+                if (b[j].title == selltitle && b[j].author == sellauthor)
+                {
+                    // b[j].check(j);
+                    flag = 1;
+                    cout << "\nthe book is avilable" << endl;
+                    ;
+                    cout << "\nthe details of book are :" << endl;
+                    cout << " title of book     : " << b[j].title << endl;
+                    cout << " author of book    : " << b[j].author << endl;
+                    cout << " price of book     : " << b[j].price << endl;
+                    cout << " publisher of book :" << b[j].publisher << endl;
+                    cout << " stock position    :" << b[j].stockposition << endl;
+                    cout << " \nhow many books you want to purchase :";
+                    cin >> contity;
+
+                    if (contity > b[j].stockposition)
+                    {
+                        cout << "reqired copies not in stock" << endl;
+                    }
+                    else
+                    {
+                        cout << "cost of copies : " << b[j].price * contity << endl;
+                        b[j].stockposition = b[j].stockposition - contity;
+                        // b[j].stockposition -= contity;
+                    }
+                    break;
+                }
+            }
+
+            if (flag == 0)
+            {
+                cout << "\nbook not found" << endl;
+            }
+            flag = 0;
+            break;
+        case 3:
+            cout << "\n\t\ttitle\t\tauthor\t\tprice\t\tpublisher\t\tstock \n";
+            for (j = 0; j < n; j++)
+            {
+                b[j].display(j);
+            }
+            break;
+
+        case 4:
+            cout << "thank you";
+            ch1 = 0;
+        }
+
+    } while (ch1 == 1);
+
+    return 0;
+}
