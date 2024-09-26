@@ -1,0 +1,219 @@
+#include <iostream>
+using namespace std;
+
+class Complex
+{
+public:
+    int real;
+    int imag;
+
+    Complex()
+    {
+        real = 0;
+        imag = 0;
+    }
+
+    Complex(int r, int i)
+    {
+        real = r;
+        imag = i;
+    }
+
+    void input()
+    {
+        cout << "real part     : ";
+        cin >> real;
+        cout << "imaginary part: ";
+        cin >> imag;
+    }
+
+    void display() const
+    {
+        cout << real << " + " << imag << "i" << endl;
+    }
+
+    Complex operator*(Complex &a)
+    {
+        Complex temp;
+        temp.real = real * a.real - imag * a.imag;
+        temp.imag = real * a.imag + imag * a.real;
+        return temp;
+    }
+    Complex operator+(Complex &a)
+    {
+        Complex temp;
+        // cout<<real<<a.real;
+        temp.real = real + a.real;                                   
+        temp.imag = imag + a.imag;
+        return temp;
+    }
+    Complex operator-(Complex &a)
+    {
+        Complex temp;
+        temp.real = real - a.real;
+        temp.imag = imag - a.imag;
+        return temp;
+    }
+    Complex operator/(Complex &a)
+    {
+       Complex temp;
+        int denominator = (a.real * a.real) + (a.imag * a.imag);
+        temp.real = (real * a.real + imag * a.imag) / denominator; // Fixed parentheses
+        temp.imag = (imag * a.real - a.imag * real) / denominator; // Fixed parentheses
+        return temp;
+    }
+};
+class Complex1
+{
+public:
+    int real;
+    int imag;
+
+    Complex1()
+    {
+        real = 0;
+        imag = 0;
+    }
+
+    Complex1(int r, int i)
+    {
+        real = r;
+        imag = i;
+    }
+
+    void input()
+    {
+        cout << "real part     : ";
+        cin >> real;
+        cout << "imaginary part: ";
+        cin >> imag;
+    }
+
+    friend Complex1 operator+(const Complex1 &c1, const Complex1 &c2);
+    friend Complex1 operator-(const Complex1 &c1, const Complex1 &c2);
+    friend Complex1 operator*(const Complex1 &c1, const Complex1 &c2);
+    friend Complex1 operator/(const Complex1 &c1, const Complex1 &c2);
+
+    void display()
+    {
+        cout << real << " + " << imag << "i" << endl;
+    }
+};
+
+Complex1 operator+(const Complex1 &c1, const Complex1 &c2)
+{
+    return Complex1(c1.real + c2.real, c1.imag + c2.imag);
+}
+
+Complex1 operator-(const Complex1 &c1, const Complex1 &c2)
+{
+    return Complex1(c1.real - c2.real, c1.imag - c2.imag);
+}
+
+Complex1 operator*(const Complex1 &c1, const Complex1 &c2)
+{
+    return Complex1(c1.real * c2.real - c1.imag * c2.imag, c1.real * c2.imag + c1.imag * c2.real);
+}
+
+Complex1 operator/(const Complex1 &c1, const Complex1 &c2)
+{
+     int denominator = (c2.real * c2.real) + (c2.imag * c2.imag);
+    return Complex1((c1.real * c2.real + c1.imag * c2.imag) / denominator, (c1.imag * c2.real - c2.imag * c1.real) / denominator);
+}
+
+
+int main()
+{
+    Complex obj1, obj2, obj3;
+    Complex1 com1, com2, com3;
+   
+    int temp1, ch;
+    do
+    {
+        cout << "how do you want to perform \n1. member function \n2. friend function\n3.exit" << endl;
+        cin>>ch;
+        switch (ch)
+        {
+        case 1:
+             cout << "\nEnter 1 st complex no." << endl;
+            obj1.input();
+            cout << "\nEnter 2 nd complex no." << endl;
+            obj2.input();
+            do
+            {
+                
+                cout << "\nchoice the operation\n1.addition \n2.subtraction\n3.multiplication\n4.division\n5.exit" << endl;
+
+                cin >> temp1;
+                switch (temp1)
+                {
+                case 1:
+                    obj3 = obj1 + obj2;
+                    cout << "addition of complex no is ";
+                    obj3.display();
+                    break;
+                case 2:
+                    obj3 = obj1 - obj2;
+                    cout << "substraction of complex no is ";
+                    obj3.display();
+                    break;
+                case 3:
+                    obj3 = obj1 * obj2;
+                    cout << "multiplication of complex no is ";
+                    obj3.display();
+                    break;
+                case 4:
+                    obj3 = obj1 / obj2;
+
+                    cout << "division of complex no is ";
+                    obj3.display();
+                    break;
+                }
+            } while (temp1 != 5);
+        
+        break;
+    case 2:
+            cout << "\nEnter 1st complex1 no." << endl; 
+        com1.input();
+        cout << "\nEnter 2nd complex1 no." << endl; 
+        com2.input();
+        do
+        { 
+            cout << "\nchoice the operation\n1.addition \n2.subtraction\n3.multiplication\n4.division\n5.exit" << endl;
+
+            cin >> temp1;
+            switch (temp1)
+            {
+            case 1:
+                com3 = com1 + com2;
+                cout << "addition of complex no is ";
+                com3.display();
+                break;
+            case 2:
+                com3 = com1 - com2;
+                cout << "substraction of complex no is ";
+                com3.display();
+                break;
+            case 3:
+                com3 = com1 * com2;
+                cout << "multiplication of complex no is ";
+                com3.display();
+                break;
+            case 4:
+                com3 = com1 / com2;
+
+                cout << "division of complex no is ";
+                com3.display();
+                break;
+            }
+        }
+        
+    
+         while (temp1 != 5);
+          break;
+        }
+   
+}while(ch!=3);
+
+return 0;
+}
