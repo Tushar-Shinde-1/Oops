@@ -1,0 +1,312 @@
+#include<iostream>
+#include<iomanip>  
+using namespace std;
+
+class person {
+public:
+    string name;
+    int age;
+    string gender;
+    int contact;
+    string address;
+
+    void inputPerson() {
+        cout << "Enter name   :";
+        cin >> name;
+        cout << "Enter age    : ";
+        cin >> age;
+        cout << "Enter gender : ";
+        cin >> gender;
+        cout << "Enter contact: ";
+        cin >> contact;
+        cout << "Enter address: ";
+        cin >> address;
+        cout << "\n";
+    }
+
+    void displayPerson() {
+        cout << setw(15) << name <<"|"
+             << setw(10) << age <<"|"
+             << setw(10) << gender <<"|"
+             << setw(15) << contact <<"|"
+             << setw(20) << address<<"|";
+    }
+};
+
+class nurse : virtual public person {
+public:
+    int licenseNo;
+    string position;
+    string shift;
+
+    void inputNurse(int i) {
+        cout << "Enter Nurse " << i + 1 << " Details:\n";
+        inputPerson();
+        cout << "Enter license number: ";
+        cin >> licenseNo;
+        cout << "Enter position       : ";
+        cin >> position;
+        cout << "Enter shift          : ";
+        cin >> shift;
+        cout << "\n";
+    }
+
+    void displayNurse() {
+        displayPerson();
+        cout << setw(15) << licenseNo <<"|"
+             << setw(15) << position <<"|"
+             << setw(10) << shift <<"|"<< endl;
+    }
+};
+
+class doctor :virtual  public person {
+public:
+    string specialty;
+    int licenseNo;
+    string shift;
+
+    void inputDoctor(int i) {
+        cout << "Enter Doctor " << i + 1 << " Details:\n";
+        inputPerson();
+        cout << "Enter specialty     : ";
+        cin >> specialty;
+        cout << "Enter license number: ";
+        cin >> licenseNo;
+        cout << "Enter shift         : ";
+        cin >> shift;
+        cout << "\n";
+    }
+
+    void displayDoctor() {
+        displayPerson();
+        cout << setw(20) << specialty <<"|"
+             << setw(15) << licenseNo <<"|"
+             << setw(10) << shift << endl;
+    }
+};
+
+
+
+class patient :virtual  public person {
+public:
+    string disease;
+    int weight;
+
+    void inputPatient(int i) {
+        cout << "Enter Patient " << i + 1 << " details:\n";
+        inputPerson();
+        cout << "Enter disease: ";
+        cin >> disease;
+        cout << "Enter weight : ";
+        cin >> weight;
+        cout << "\n";
+    }
+
+    void displayPatient() {
+        displayPerson();
+        cout << setw(15) << disease <<"|"
+             << setw(10) << weight <<"|"<< endl;
+    }
+};
+class adminStaff : public doctor,patient,nurse {
+public:
+    string post;
+
+    void inputAdmin(int i) {
+        cout << "Enter Administrative Staff " << i + 1 << " Details:\n";
+        inputPerson();
+        cout << "Enter post: ";
+        cin >> post;
+        cout << "\n";
+    }
+
+    void displayAdmin() {
+        displayPerson();
+        cout << setw(20) << post << endl;
+    }
+};
+
+int main() {
+    int n;
+    int ch, ch1;
+    string name;
+
+  
+    doctor doctors[10];
+    nurse nurses[10];
+    adminStaff admins[10];
+    patient patients[10];
+
+    int docCount = 0, nurseCount = 0, adminCount = 0, patientCount = 0;
+
+    do {
+        cout << "\n1. Fill the information\n2. Display the information\n3. check avilability\n4. exit\nSelect your choice: ";
+        cin >> ch;
+
+        switch (ch) {
+        case 1: {
+            cout << "\n1. Doctor information\n2. Nurse information\n3. Admin staff information\n4. Patient information\nSelect your choice: ";
+            cin >> ch1;
+            switch (ch1) {
+            case 1:
+                cout << "Enter number of doctors: ";
+                cin >> n;
+                for (int i = 0; i < n; i++) {
+                    doctors[docCount].inputDoctor(docCount);
+                    docCount++;
+                }
+                break;
+            case 2:
+                cout << "Enter number of nurses: ";
+                cin >> n;
+                for (int i = 0; i < n; i++) {
+                    nurses[nurseCount].inputNurse(nurseCount);
+                    nurseCount++;
+                }
+                break;
+            case 3:
+                cout << "Enter number of admin staff: ";
+                cin >> n;
+                for (int i = 0; i < n; i++) {
+                    admins[adminCount].inputAdmin(adminCount);
+                    adminCount++;
+                }
+                break;
+            case 4:
+                cout << "Enter number of patients: ";
+                cin >> n;
+                for (int i = 0; i < n; i++) {
+                    patients[patientCount].inputPatient(patientCount);
+                    patientCount++;
+                }
+                break;
+            default:
+                cout << "Invalid choice!\n";
+            }
+            break;
+        }
+
+        case 2: {
+            cout << "\n1. Doctor information\n2. Nurse information\n3. Admin staff information\n4. Patient information\nSelect your choice: ";
+            cin >> ch1;
+            switch (ch1) {
+            case 1:
+                cout << setw(15) << "Name" <<"|"
+                     << setw(10) << "Age" <<"|"
+                     << setw(10) << "Gender"<<"|" 
+                     << setw(15) << "Contact" <<"|"
+                     << setw(20) << "Address" <<"|"
+                     << setw(20) << "Specialty"<<"|" 
+                     << setw(15) << "License No" <<"|"
+                     << setw(10) << "Shift" << endl;
+                for (int i = 0; i < docCount; i++) {
+                    doctors[i].displayDoctor();
+                }
+                break;
+            case 2:
+                cout << setw(15) << "Name" <<"|"
+                     << setw(10) << "Age" <<"|"
+                     << setw(10) << "Gender" <<"|"
+                     << setw(15) << "Contact" <<"|"
+                     << setw(20) << "Address" <<"|"
+                     << setw(15) << "License No"<<"|" 
+                     << setw(15) << "Position" <<"|"
+                     << setw(10) << "Shift" << endl;
+                for (int i = 0; i < nurseCount; i++) {
+                    nurses[i].displayNurse();
+                }
+                break;
+            case 3:
+                cout << setw(15) << "Name" <<"|"
+                     << setw(10) << "Age" <<"|"
+                     << setw(10) << "Gender"<<"|" 
+                     << setw(15) << "Contact" <<"|"
+                     << setw(20) << "Address" <<"|"
+                     << setw(20) << "Post" << endl;
+                for (int i = 0; i < adminCount; i++) {
+                    admins[i].displayAdmin();
+                }
+                break;
+            case 4:
+                cout << setw(15) << "Name" <<"|"
+                     << setw(10) << "Age" <<"|"
+                     << setw(10) << "Gender" <<"|"
+                     << setw(15) << "Contact" <<"|"
+                     << setw(20) << "Address" <<"|"
+                     << setw(15) << "Disease" <<"|"
+                     << setw(10) << "Weight" << endl;
+                for (int i = 0; i < patientCount; i++) {
+                    patients[i].displayPatient();
+                }
+                break;
+            default:
+                cout << "Invalid choice!\n";
+            }
+            break;
+        }
+        case 3:
+            do{
+                cout<<"what do you want to perform\n1.check doctor\n2.check nurse\n3.check patient\n4.exit";
+                cin>>ch;
+                switch(ch)
+                {
+                    case 1:
+                    cout<<"enter the name of doctor to search";
+                    cin>>name;
+                    for(int i=0;i<docCount;i++)
+                    {
+                        if(name==doctors[i].name)
+                        {
+                            cout<<"doctor is avilable\n";
+                        }
+                        else{
+                            cout<<"doctor not avilable\n";
+                        }
+                    }
+                    break;
+                    case 2:
+                    cout<<"enter the name of nurse to search";
+                    cin>>name;
+                    for(int i=0;i<docCount;i++)
+                    {
+                        if(name==nurses[i].name)
+                        {
+                            cout<<"nurse is avilable\n";
+                            break;
+                        }
+                        else{
+                            cout<<"nurse is not avilable\n";
+                        }
+                    }
+                    break;
+                    case 3:
+                    cout<<"enter the name of patient to search";
+                    cin>>name;
+                    for(int i=0;i<docCount;i++)
+                    {
+                        if(name==nurses[i].name)
+                        {
+                            cout<<"patient is avilable\n";
+                            break;
+                        }
+                        else{
+                            cout<<"patient is not avilable\n";
+                        }
+                    }
+                    break;
+                }
+
+                
+            }while(ch!=4);
+
+        case 4:
+            cout << "Exiting the program.\n";
+            break;
+
+        default:
+            cout << "Invalid choice!\n";
+        }
+    } while (ch != 4);
+
+    return 0;
+}
