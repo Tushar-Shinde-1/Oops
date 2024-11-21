@@ -1,0 +1,71 @@
+#include<iostream>
+using namespace std;
+#include<string>
+class television{
+    public:
+    int modalno;
+    float screen;
+    float price;
+  friend void  operator <<(ostream &out ,television &t);
+   friend void  operator >>(istream &out ,television &t);
+  
+
+}t;
+
+void  operator <<(ostream &out ,television &t)
+{
+    out<<"modalno: "<<t.modalno<<endl;
+    out<<"screen: "<<t.screen<<endl;
+    out<<"price: "<<t.price<<endl;
+}
+    void  operator >>(istream &out ,television &t)
+    {int e;
+        cout<<"enter modalno: ";
+        cin>>t.modalno;
+        cout<<"enter screen: ";
+        cin>>t.screen;
+        cout<<"enter price: ";
+        cin>>t.price;
+try{
+        if (t.modalno>9999||t.screen>70||t.screen<12||t.price<0||t.price>5000)
+        {
+throw(e);
+        }
+        else{
+            cout<<"data is valid"<<endl;
+        }
+    }
+    catch(int e)
+    {
+        t.modalno=0;
+        t.screen=0;
+        t.price=0;
+
+    }
+    {
+
+    }
+    }
+    int main()
+    {int ch;
+    do{
+        cout<<"what you want to perform?\n1.television input\n2.television output\n3.exit";
+        cin>>ch;
+        switch(ch)
+        {
+            case 1:
+            cin>>t;
+            break;
+            case 2:
+            cout<<t;
+            break;
+            case 3:
+            exit(0);
+            break;
+            default:
+            cout<<"invalid choice";
+        }
+    }while(ch!=3);
+    return 0;
+
+    }
