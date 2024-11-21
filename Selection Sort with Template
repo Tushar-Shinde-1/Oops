@@ -1,0 +1,54 @@
+#include <iostream>
+using namespace std;
+
+template <class T>
+void sortArray(T a[], int n) {
+    cout << "Enter the elements: ";
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    // Selection sort logic
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (a[i] > a[j]) {
+                T temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
+    }
+
+    cout << "Sorted array: ";
+    for (int i = 0; i < n; i++) {
+        cout << a[i] <<" ";
+    }
+    cout << endl;
+}
+
+int main() {
+    int n,ch;
+   
+
+    float arr[10];
+    int arr1[10];
+    do{
+        cout<<"what do you want to perform\n1.sort int array \n2.sort float array\n3.end\n";
+        cin>>ch;
+    switch(ch)
+   {case 1: 
+   cout << "Enter the size of the array: ";
+    cin >> n;
+     sortArray(arr1, n); 
+     break;
+    case 2:
+    cout << "Enter the size of the array: ";
+    cin >> n;
+    sortArray(arr, n);
+    break;
+
+    }
+    
+}while(ch!=3);
+return 0;
+}
