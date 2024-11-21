@@ -1,0 +1,176 @@
+#include <iostream>
+#include <iomanip>  // For setw
+#include <string>
+using namespace std;
+
+class exam {
+public:
+    string name;
+    int rollno;
+
+    virtual void input() {
+        cout << "Enter the following details:\n";
+        cout << "1. Name: ";
+        cin >> name;
+        cout << "2. Roll no: ";
+        cin >> rollno;
+    }
+};
+
+class subject : public exam {
+public:
+    int n;
+    string subcode[10];
+    float internal[10];
+    float final[10];
+    string subjectName[10];
+    float internal1;
+    string subjectcheck;
+
+    void input() {
+        exam::input();
+        cout << "How many subject details you want to insert: ";
+        cin >> n;
+        for (int i = 0; i < n; i++) {
+            cout << "Enter details for subject " << i + 1 << ":\n";
+            cout << "Enter subject name: ";
+            cin >> subjectName[i];
+            cout << "Enter subject code: ";
+            cin >> subcode[i];
+            cout << "Internal marks: ";
+            cin >> internal[i];
+            cout << "Final marks: ";
+            cin >> final[i];
+        }
+    }
+
+    void display() {
+        cout << "\nStudent Name: " << name << ", Roll No: " << rollno << "\n";
+        cout << setw(15) << "Subject Name" 
+             << setw(15) << "Sub Code" 
+             << setw(15) << "Internal" 
+             << setw(15) << "Final" 
+             << setw(15) << "Percentage" << "\n";
+        cout << "-----------------------------------------------------------------\n";
+        for (int i = 0; i < n; i++) {
+            float percentage = (internal[i] + final[i]);  // Assuming total of 100 marks
+            cout << setw(15) << subjectName[i] 
+                 << setw(15) << subcode[i]
+                 << setw(15) << internal[i]
+                 << setw(15) << final[i]
+                 << setw(15) << percentage << "%\n";
+        }
+    }
+
+    void edit() {
+        int roll;
+        cout << "Enter the roll no to edit: ";
+        cin >> roll;
+        if (roll == rollno) {
+            cout << "Enter the subject name to modify: ";
+            cin >> subjectcheck;
+            for (int i = 0; i < n; i++) {
+                if (subjectName[i] == subjectcheck) {
+                    cout << "Enter the new internal marks: ";
+                    cin >> internal1;
+                    internal[i] = internal1;
+                }
+            }
+        }
+    }
+
+    void search(int roll) {
+        if (roll == rollno) {
+            display();
+        }
+    }
+
+    void deletedata() {
+        n = 0;  // Setting the number of subjects to 0 effectively clears the data
+        cout << "Data for student " << name << " (Roll No: " << rollno << ") has been deleted.\n";
+    }
+};
+
+int main() {
+    const int MAX_STUDENTS = 10;
+    subject students[MAX_STUDENTS];
+    int choice, studentCount = 0;
+
+    do {
+        cout << "\n--- Student Exam Management System ---\n";
+        cout << "1. Input Student Details\n";
+        cout << "2. Display All Student Details\n";
+        cout << "3. Edit Marks\n";
+        cout << "4. Search Student Details\n";
+        cout << "5. Delete Student Data\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                if (studentCount < MAX_STUDENTS) {
+                    students[studentCount].input();
+                    studentCount++;
+                } else {
+                    cout << "Maximum student limit reached.\n";
+                }
+                break;
+            case 2:
+                for (int i = 0; i < studentCount; i++) {
+                    students[i].display();
+                }
+                break;
+            case 3: {
+                int roll;
+                cout << "Enter roll number to edit marks: ";
+                cin >> roll;
+                for (int i = 0; i < studentCount; i++) {
+                    students[i].edit();
+                }
+                break;
+            }
+            case 4: {
+                int roll;
+                cout << "Enter roll number to search: ";
+                cin >> roll;
+                bool found = false;
+                for (int i = 0; i < studentCount; i++) {
+                    if (students[i].rollno == roll) {
+                        students[i].display();
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    cout << "Student with roll number " << roll << " not found.\n";
+                }
+                break;
+            }
+            case 5: {
+                int roll;
+                cout << "Enter roll number to delete: ";
+                cin >> roll;
+                bool found = false;
+                for (int i = 0; i < studentCount; i++) {
+                    if (students[i].rollno == roll) {
+                        students[i].deletedata();
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    cout << "Student with roll number " << roll << " not found.\n";
+                }
+                break;
+            }
+            case 6:
+                cout << "Exiting the system.\n";
+                break;
+            default:
+                cout << "Invalid choice. Try again.\n";
+        }
+    } while (choice != 6);
+
+    return 0;
+}
